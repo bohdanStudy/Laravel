@@ -15,7 +15,7 @@ class CategoryController extends BaseController
     public function index()
     {
         //
-//        dd(__METHOD__);
+        //dd(__METHOD__);
         $paginator = BlogCategory::paginate(5);
 
         return $paginator;
@@ -27,7 +27,6 @@ class CategoryController extends BaseController
     public function store(Request $request)
     {
         //
-//        dd(__METHOD__);
         $data = $request->all();
 
         if (empty($data['slug'])) {
@@ -49,7 +48,6 @@ class CategoryController extends BaseController
     public function show(string $id)
     {
         //
-//        dd(__METHOD__);
     }
 
     /**
@@ -58,7 +56,6 @@ class CategoryController extends BaseController
     public function update(Request $request, string $id)
     {
         //
-//        dd(__METHOD__);
         $item = BlogCategory::find($id);
         if (empty($item)) { //якщо ід не знайдено
             return back() //redirect back
@@ -74,7 +71,7 @@ class CategoryController extends BaseController
         $result = $item->update($data);  //оновлюємо дані об'єкта і зберігаємо в БД
 
         if ($result) {
-            return ['success' => 'Успішно збережено'];
+            return ['success' => 'Успішно збережено', 'item' => $item];
         } else {
             return ['msg' => 'Помилка збереження'];
         }
@@ -86,6 +83,5 @@ class CategoryController extends BaseController
     public function destroy(string $id)
     {
         //
-//        dd(__METHOD__);
     }
 }
