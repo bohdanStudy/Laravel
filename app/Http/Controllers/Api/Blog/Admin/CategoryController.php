@@ -1,11 +1,13 @@
 <?php
 
-namespace App\Http\Controllers\Blog\Admin;
+namespace App\Http\Controllers\Api\Blog\Admin;
 
 //use App\Http\Controllers\Controller;
-use Illuminate\Http\Request;
+use App\Http\Requests\BlogCategoryCreateRequest;
 use App\Models\BlogCategory;
+use Illuminate\Http\Request;
 use Illuminate\Support\Str;
+use App\Http\Requests\BlogCategoryUpdateRequest;
 
 class CategoryController extends BaseController
 {
@@ -24,21 +26,23 @@ class CategoryController extends BaseController
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function store(BlogCategoryCreateRequest $request)
     {
-        //
-        $data = $request->all();
+        $data = $request->input(); // отримаємо масив даних, які надійшли з форми
 
-        if (empty($data['slug'])) {
-            $data['slug'] = Str::slug($data['title']);
+        if (empty($data['slug'])) { // якщо псевдонім порожній
+            $data['slug'] = Str::slug($data['title']); // генеруємо псевдонім
         }
 
-        $item = BlogCategory::create($data);
+        $item = (new BlogCategory())->create($data); // створюємо об'єкт і додаємо в БД
 
         if ($item) {
-            return ['success' => 'Успішно збережено'];
+            return [
+                'success' => true,
+                'message' => 'Успішно збережено'
+            ];
         } else {
-            return ['msg' => 'Помилка збереження'];
+            return ['message' => 'Помилка збереження'];
         }
     }
 
@@ -53,7 +57,7 @@ class CategoryController extends BaseController
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id)
+    public function update(BlogCategoryUpdateRequest $request, $id)
     {
         //
         $item = BlogCategory::find($id);
