@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\Api\Blog\Admin\CategoryController;
 use App\Http\Controllers\Api\Blog\Admin\PostController;
+//use App\Http\Controllers\Api\Blog\PostController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -9,23 +10,24 @@ Route::get('/user', function (Request $request) {
     return $request->user();
 })->middleware('auth:sanctum');
 
+// Публічна частина
 Route::group([ 'prefix' => 'blog'], function () {
     Route::apiResource('posts', PostController::class)->names('blog.posts');
 });
 
-//Адмінка
+// Адмінка
 $groupData = [
     'prefix' => 'admin/blog',
 ];
 Route::group($groupData, function () {
-    //BlogCategory
-    $methods = ['index','store','update',];
+    // BlogCategory
+    $methods = ['index', 'store', 'update'];
     Route::apiResource('categories', CategoryController::class)
         ->only($methods)
         ->names('blog.admin.categories');
 
-    //BlogPost
+    // BlogPost
     Route::apiResource('posts', PostController::class)
-        ->except(['show'])                               //не робити маршрут для метода show
+        ->except(['show'])
         ->names('blog.admin.posts');
 });

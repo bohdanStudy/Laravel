@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Api\Blog;
 
+use App\Http\Requests\BlogPostCreateRequest;
 use App\Models\BlogPost;
 use Illuminate\Http\Request;
 
@@ -21,9 +22,18 @@ class PostController extends BaseController
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function store(BlogPostCreateRequest  $request)
     {
         //
+        $data = $request->input(); //отримаємо масив даних, які надійшли з форми
+
+        $item = (new BlogPost())->create($data); //створюємо об'єкт і додаємо в БД
+
+        if ($item) {
+            return ['success' => 'Успішно збережено'];
+        } else {
+            return ['msg' => 'Помилка збереження'];
+        }
     }
 
     /**
