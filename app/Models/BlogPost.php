@@ -13,6 +13,11 @@ class BlogPost extends Model
     use SoftDeletes;
     const UNKNOWN_USER = 1;
 
+    protected $casts
+        = [
+            'published_at' => 'datetime',
+        ];
+
     protected $fillable
         = [
             'title',

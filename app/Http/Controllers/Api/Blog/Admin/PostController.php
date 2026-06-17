@@ -5,9 +5,9 @@ namespace App\Http\Controllers\Api\Blog\Admin;
 use App\Models\BlogPost;
 use App\Repositories\BlogPostRepository;
 use App\Repositories\BlogCategoryRepository;
-use App\Http\Requests\BlogPostCreateRequest; // Повернули реквест для створення
+use App\Http\Requests\BlogPostCreateRequest;
 use App\Http\Requests\BlogPostUpdateRequest;
-use Illuminate\Support\Str;
+use App\Http\Resources\Api\Blog\Admin\PostResource;
 use App\Jobs\BlogPostAfterCreateJob;
 use App\Jobs\BlogPostAfterDeleteJob;
 
@@ -27,7 +27,7 @@ class PostController extends BaseController
     {
         $paginator = $this->blogPostRepository->getAllWithPaginate();
 
-        return $paginator;
+        return PostResource::collection($paginator);
     }
 
     /**
