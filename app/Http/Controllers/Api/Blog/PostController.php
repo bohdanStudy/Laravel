@@ -41,7 +41,12 @@ class PostController extends BaseController
      */
     public function show(string $id)
     {
-        //
+        $item = BlogPost::with([
+            'category:id,title',
+            'user:id,name',
+        ])->findOrFail($id);
+
+        return $item;
     }
 
     /**
