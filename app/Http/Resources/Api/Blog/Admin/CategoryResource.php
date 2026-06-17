@@ -16,10 +16,12 @@ class CategoryResource extends JsonResource
     {
         // $this вказує на поточний об'єкт моделі BlogCategory
         return [
-            'id'        => $this->id,
-            'title'     => $this->title,
-            'slug'      => $this->slug,
-            'parent_id' => $this->parent_id,
+            'id'           => $this->id,
+            'title'        => $this->title,
+            'slug'         => $this->slug,
+            'parent_id'    => $this->parent_id,
+            'parent_title' => $this->parentCategory?->title,
+            'description'  => $this->description,
         ];
     }
 }

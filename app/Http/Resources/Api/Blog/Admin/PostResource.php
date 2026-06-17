@@ -28,9 +28,9 @@ class PostResource extends JsonResource
             'user_id'        => $this->user_id,
             'category_id'    => $this->category_id,
 
-            // Приклад виведення зв'язку (якщо у моделі BlogPost налаштовано зв'язки category та user)
-            // 'category_title' => $this->category?->title,
-            // 'author_name'    => $this->user?->name,
+            // Виведення зв'язків
+            'category_title' => $this->category?->title,
+            'author_name'    => $this->user?->name,
         ];
     }
 }

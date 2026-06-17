@@ -50,7 +50,16 @@ class CategoryController extends BaseController
      */
     public function show(string $id)
     {
-        //
+        $item = $this->blogCategoryRepository->getEdit($id);
+
+        if (empty($item)) {
+            return response()->json([
+                'success' => false,
+                'message' => "Запис id=[{$id}] не знайдено"
+            ], 404);
+        }
+
+        return new CategoryResource($item);
     }
 
     /**
@@ -58,8 +67,8 @@ class CategoryController extends BaseController
      */
     public function update(BlogCategoryUpdateRequest $request, $id)
     {
-        //
         $item = $this->blogCategoryRepository->getEdit($id);
+
         if (empty($item)) { //якщо ід не знайдено
             return back() //redirect back
             ->withErrors(['msg' => "Запис id=[{$id}] не знайдено"]) //видати помилку
@@ -71,9 +80,16 @@ class CategoryController extends BaseController
         $result = $item->update($data);  //оновлюємо дані об'єкта і зберігаємо в БД
 
         if ($result) {
-            return ['success' => 'Успішно збережено', 'item' => $item];
+            return [
+                'success' => true,
+                'message' => 'Успішно збережено',
+                'item' => $item
+            ];
         } else {
-            return ['msg' => 'Помилка збереження'];
+            return [
+                'success' => false,
+                'message' => 'Помилка збереження'
+            ];
         }
     }
 
@@ -82,6 +98,18 @@ class CategoryController extends BaseController
      */
     public function destroy(string $id)
     {
-        //
+        $result = BlogCategory::destroy($id);
+
+        if ($result) {
+            return [
+                'success' => true,
+                'message' => 'Успішно видалено'
+            ];
+        } else {
+            return [
+                'success' => false,
+                'message' => 'Запис не знайдено'
+            ];
+        }
     }
 }
