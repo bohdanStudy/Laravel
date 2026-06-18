@@ -20,7 +20,7 @@ class BlogPostRepository extends CoreRepository
      *
      * @return \Illuminate\Contracts\Pagination\LengthAwarePaginator
      */
-    public function getAllWithPaginate()
+    public function getAllWithPaginate($perPage = null)
     {
         $columns = ['id', 'title', 'slug', 'is_published', 'published_at', 'user_id', 'category_id',];
 
@@ -34,7 +34,7 @@ class BlogPostRepository extends CoreRepository
                 //'category:id,title',
                 'user:id,name',
             ])
-            ->paginate(25);
+            ->paginate($perPage ?? 25);
 
         return $result;
     }

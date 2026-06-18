@@ -25,7 +25,8 @@ class PostController extends BaseController
      */
     public function index()
     {
-        $paginator = $this->blogPostRepository->getAllWithPaginate();
+        $perPage = request()->input('per_page', 25);
+        $paginator = $this->blogPostRepository->getAllWithPaginate($perPage);
 
         return PostResource::collection($paginator);
     }
